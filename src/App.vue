@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="16">
           <div
-            v-if="connectedAcc"
+            v-if="connectedAcc !== ''"
             class="grid-content"
             style="text-align: right"
           >
@@ -75,32 +75,35 @@ import { defineComponent } from "vue";
 import { singleton } from "@/common/singleton.ts";
 import { EthClient } from "@/services/eth-client.ts";
 import { Config } from "@/config/config";
+import { ElMessageBox } from "element-plus";
 
 export default defineComponent({
   name: "App",
   data() {
     return {
-      connectedAcc: null,
-      balance: 0.0,
+      connectedAcc: "",
+      balance: "0.0",
     };
   },
   methods: {
     async connectMM() {
       const config: Config = singleton.get(Config);
       const ethClient: EthClient = singleton.get(EthClient);
-      const ret = await ethClient.connect(
-        config.networkId,
-        (newAcc) => {
+      const ret = await ethClient.connect(config.networkId, (newAcc) => {
         this.updateUI(newAcc);
       });
       if (!ret.success) {
-        this.$alert(`Connect failed: ${JSON.stringify(ret.error)}`, "Error", {
-          confirmButtonText: "OK",
-          type: "error",
-        });
+        (this as any).$alert(
+          `Connect failed: ${JSON.stringify(ret.error)}`,
+          "Error",
+          {
+            confirmButtonText: "OK",
+            type: "error",
+          }
+        );
       }
       // Update page displaying
-      this.updateUI(ethClient.web3.defaultAccount).then();
+      this.updateUI(ethClient.web3.defaultAccount as string).then();
     },
     async updateUI(connectedAcc: string) {
       const ethClient: EthClient = singleton.get(EthClient);
