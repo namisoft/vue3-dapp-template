@@ -1,24 +1,6 @@
-# vue3-dapp
-
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# vue3-dapp-template
+Vue3 ĐApp Template
+- Vue3 + Element Plus
+- web3js
+- Simple sington objects management
+- App mode (dev/test/prod...) configurable
